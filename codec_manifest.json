@@ -1,0 +1,167 @@
+{
+  "adeunis.comfort": [
+    "battery",
+    "temperature",
+    "humidity",
+    "temperature_alarm",
+    "humidity_alarm",
+    "button.global_counter",
+    "button.instant_counter",
+    "dry_contact.global_counter",
+    "dry_contact.instant_counter"
+  ],
+  "adeunis.dry_contacts": [
+    "battery",
+    "input_1.counter",
+    "input_2.counter",
+    "input_3.counter",
+    "input_4.counter"
+  ],
+  "adeunis.motion": [
+    "battery",
+    "presence.global_counter",
+    "presence.instant_counter",
+    "brightness",
+    "brightness_alarm",
+    "button.global_counter",
+    "button.instant_counter",
+    "dry_contact.global_counter",
+    "dry_contact.instant_counter"
+  ],
+  "adeunis.pulse": [
+    "battery",
+    "flow_alarm",
+    "channel_a.counter",
+    "channel_a.flow",
+    "channel_a.flow_alarm",
+    "channel_a.fraud_alarm",
+    "channel_a.leakage_alarm",
+    "channel_a.last_24h_min_flow",
+    "channel_a.last_24h_max_flow",
+    "channel_b.counter",
+    "channel_b.flow",
+    "channel_b.flow_alarm",
+    "channel_b.fraud_alarm",
+    "channel_b.leakage_alarm",
+    "channel_b.last_24h_min_flow",
+    "channel_b.last_24h_max_flow"
+  ],
+  "adeunis.temp": [
+    "battery",
+    "internal_sensor.temperature",
+    "external_sensor.temperature"
+  ],
+  "ewattch.ambiance": [
+    "battery",
+    "temperature",
+    "humidity",
+    "co2",
+    "brightness",
+    "presence_duration",
+    "send_period"
+  ],
+  "nanosense.aaq": [
+    "battery.level",
+    "battery.remaining_time",
+    "temperature",
+    "humidity",
+    "co2",
+    "pm_10",
+    "pm_1",
+    "pm_2_5",
+    "noise.mean",
+    "noise.peak",
+    "no2_concentration",
+    "nox_concentration",
+    "o3_concentration",
+    "h2s_concentration",
+    "so2_concentration",
+    "nh2_concentration"
+  ],
+  "nanosense.e4000ng": [
+    "temperature",
+    "humidity",
+    "co2",
+    "voc",
+    "pm_10",
+    "pm_1",
+    "pm_2_5"
+  ],
+  "netvox.r311a": [
+    "battery",
+    "switch.status"
+  ],
+  "netvox.r311w": [
+    "battery",
+    "water1.leak",
+    "water2.leak"
+  ],
+  "netvox.r718ab": [
+    "battery",
+    "battery.voltage",
+    "temperature",
+    "humidity"
+  ],
+  "netvox.r718f": [
+    "battery",
+    "switch.status"
+  ],
+  "netvox.r718g": [
+    "battery",
+    "luminosity"
+  ],
+  "netvox.r718n3": [
+    "battery",
+    "phase1.raw_current",
+    "phase1.multiplier",
+    "phase2.raw_current",
+    "phase2.multiplier",
+    "phase3.raw_current",
+    "phase3.multiplier"
+  ],
+  "netvox.r718wa": [
+    "battery",
+    "water_leak"
+  ],
+  "netvox.r72615a": [
+    "battery",
+    "battery.voltage",
+    "temperature",
+    "humidity",
+    "co2_concentration"
+  ],
+  "netvox.r72616a": [
+    "battery",
+    "battery.voltage",
+    "temperature",
+    "humidity",
+    "pm_2_5"
+  ],
+  "netvox.rb11e": [
+    "battery",
+    "battery.voltage",
+    "temperature",
+    "illuminance",
+    "occupied"
+  ],
+  "nke.pulse_senso": [
+    "input_1.counter",
+    "input_2.counter",
+    "input_3.counter"
+  ],
+  "radio_bridge.door_window": [
+    "battery",
+    "doorWindowOpenStatus"
+  ],
+  "radio_bridge.probless_temp": [
+    "battery",
+    "temperature",
+    "reportType"
+  ],
+  "radio_bridge.temp_humidity": [
+    "battery",
+    "temperature",
+    "humidity",
+    "reportType"
+  ]
+}
