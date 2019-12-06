@@ -3,8 +3,11 @@ import click
 import requests
 import json
 import uuid
+# import logging
+import sys
 from requests.auth import HTTPBasicAuth
 
+# logging.basicConfig(filename='errors.log', filemode='w')
 url_ws = 'http://localhost:8442'
 config_path = './codec_manifest.json'
 
@@ -13,60 +16,79 @@ config_path = './codec_manifest.json'
 @click.option('--box_id', required=True, help='enter the Wattsense boxId')
 @click.option('--username', required=True, help='enter the username to access the api')
 @click.option('--password', required=True, help='enter the password to access the api')
-@click.option('--push', required=True, type=click.Choice(['yes', 'no'], case_sensitive=False),
+@click.option('--publish', required=True, type=click.Choice(['false', 'true'], case_sensitive=False),
               help='if the push is yes, the created config will be pushed to the device, otherwise no')
 @click.option('--filepath', required=True,
               help='give the csv file path that will contains:wattsenseBoxId,name,devEUI,appKey,appEUI,codecId')
-
 # // Load and process CSV file
-def load_csv(filepath, box_id, username, password, push):
+def load_csv(filepath, box_id, username, password, publish):
     codec_store = read_codec_config(config_path)
-    create_new_draft_config(box_id,username,password)
-    check_create_network(box_id,username,password)
+    create_new_draft_config(box_id, username, password)
+    network_id = check_create_network(box_id, username, password)
     with open(filepath, 'r') as csvFile:
         reader = csv.reader(csvFile)
         next(csvFile, None)
-        create_lorawan_equipments_properties(reader, box_id, username, password, codec_store)
+        equip_list = create_lorawan_equipments_properties(reader, box_id, username, password, codec_store)
+        assign_equipments_to_network(box_id,network_id,equip_list,username,password)
     csvFile.close()
+    if publish:
+        publish_revision(box_id, username, password)
 
 
-
-
+# POST equipment (and create a new draft)
 def create_lorawan_equipments_properties(reader, box_id, username, password, codec_store):
-    # POST equipment (and create a new draft)
+    equip_list = []
     for row in reader:
         body = get_equipment_body(row)
         print("created : {}".format(body))
-        toPost = url_ws + '/api/devices/' + box_id + '/configs/draft/equipments'
-        print("Posting to:{}", format(toPost))
-        r = requests.post(toPost,
+        to_post = url_ws + '/api/devices/' + box_id + '/configs/draft/equipments'
+        # logging.critical('This is a critical message',to_post)
+        print("Posting to:{}", format(to_post))
+        r = requests.post(to_post,
                           auth=HTTPBasicAuth(username, password),
                           json=body)
         if r.status_code != 201:
             print("Issue in POST : {}".format(r.status_code))
-            # here add it in the log file
-        else:
-            data = r.json()
-            equipment_id = data["equipmentId"]
-            codec_id = row[4]
-            print("equipmentID:{}", format(equipment_id))
-            print("codecID: {}", format(codec_id))
-            post_properties(codec_id, equipment_id, box_id, username, password, codec_store)
+            return equip_list # here add it in the log file
+
+        data = r.json()
+        equipment_id = data["equipmentId"]
+        equip_list.append(equipment_id)
+        codec_id = row[4]
+        print("equipmentID:{}", format(equipment_id))
+        print("codecID: {}", format(codec_id))
+        post_properties(codec_id, equipment_id, box_id, username, password, codec_store)
+    return equip_list
 
 
 def post_properties(codec_id, equipment_id, box_id, username, password, codec_sotre):
-    toPost = url_ws + '/api/devices/' + box_id + '/configs/draft/properties'
+    to_post = url_ws + '/api/devices/' + box_id + '/configs/draft/properties'
     properties = codec_sotre[codec_id]
     for p_codec in properties:
         print("prop Codec: {}", format(p_codec))
         body = get_property_body(equipment_id, p_codec)
-        r = requests.post(toPost,
+        r = requests.post(to_post,
                           auth=HTTPBasicAuth(username, password),
                           json=body)
         if r.status_code != 201:
             print("Issue in property POST : {}".format(r.reason))
         else:
             print("Done properties")
+
+
+def publish_revision(box_id, username, password):
+    to_put = url_ws + '/api/devices/' + box_id + '/configs/draft'
+    body = {
+        "publish": True,
+        "notes": "automatically published from the script",
+    }
+    r = requests.put(to_put,
+                     auth=HTTPBasicAuth(username, password),
+                     json=body)
+    if r.status_code != 200:
+        print("Issue in publish PUT : {}".format(r.json()))
+    else:
+        print("Done publish")
 
 
 def get_properties_for_codec_id(json_data, codec_id):
@@ -101,7 +123,8 @@ def create_new_draft_config(box_id, username, password):
                       auth=HTTPBasicAuth(username, password),
                       json={})
     if r.status_code == 404 or r.status_code > 409:
-        print("Issue in creating new draft: {}{}",format(r.json()),format(r.status_code))
+        print("Issue in creating new draft: {}{}", format(r.json()), format(r.status_code))
+        sys.exit(1)
 
 
 def check_create_network(box_id, username, password):
@@ -112,10 +135,10 @@ def check_create_network(box_id, username, password):
     if r.status_code != 200:
         print("Issue in network Get : {}".format(r.reason))
 
-    print("network code: {}",format(r.status_code))
+    print("network code: {}", format(r.status_code))
 
     if len(r.json()) != 0:
-        return
+        return r.json()[0]['networkId']
 
     network_request = {
         "name": "lorawan network for EU",
@@ -134,9 +157,33 @@ def check_create_network(box_id, username, password):
                       json=network_request)
     if r.status_code != 201:
         print("Issue in network creation POST : {}".format(r.reason))
+        sys.exit(1)
     else:
-        print("Done Network")
-    return
+        return r.json()['networkId']
+
+
+def assign_equipments_to_network(box_id, network_id, equips_list, username, password):
+    print("equip_lisst {}",equips_list)
+    network_request = {
+        "name": "lorawan network for EU",
+        "description": "auto generated lorawan network",
+        "equipments": equips_list,
+        "config": {
+            "protocol": "LORAWAN_V1_0",
+            "regionConfig": {
+                "name": "EUROPE",
+                "frequencyPlanId": "EU_863_870"
+            },
+        },
+    }
+
+    to_put = url_ws + '/api/devices/' + box_id + '/configs/draft/networks/' + network_id
+    r = requests.put(to_put,
+                      auth=HTTPBasicAuth(username, password),
+                      json=network_request)
+    if r.status_code != 200:
+        print("Issue in put request for network, {}", format(r.json()))
+
 
 
 def get_property_body(equipment_id, codec_property_id):
