@@ -7,8 +7,8 @@ import logging
 import sys
 from requests.auth import HTTPBasicAuth
 
-FORMAT = '%(asctime)-15s %(message)s'
-logging.basicConfig(filename='errors.log', filemode='w', format=FORMAT)
+format_type = '%(asctime)-15s %(message)s'
+logging.basicConfig(filename='errors.log', filemode='w', format=format_type)
 url_ws = 'http://localhost:8442'
 config_path = './codec_manifest.json'
 
@@ -130,12 +130,11 @@ def check_create_network(box_id, username, password):
     r = requests.get(to_get,
                      auth=HTTPBasicAuth(username, password))
 
-    if r.status_code != 200:
-        logging.error('Network Get Issue %s', format(r.json()))
-        print('Error in getting network info, check error logs')
-
-    if len(r.json()) != 0:
+    if r.status_code == 200 and len(r.json()) != 0:
         return r.json()[0]['networkId']
+
+
+
 
     network_request = {
         "name": "lorawan network for EU",
