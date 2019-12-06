@@ -3,11 +3,12 @@ import click
 import requests
 import json
 import uuid
-# import logging
+import logging
 import sys
 from requests.auth import HTTPBasicAuth
 
-# logging.basicConfig(filename='errors.log', filemode='w')
+FORMAT = '%(asctime)-15s %(message)s'
+logging.basicConfig(filename='errors.log', filemode='w', format=FORMAT)
 url_ws = 'http://localhost:8442'
 config_path = './codec_manifest.json'
 
@@ -29,10 +30,12 @@ def load_csv(filepath, box_id, username, password, publish):
         reader = csv.reader(csvFile)
         next(csvFile, None)
         equip_list = create_lorawan_equipments_properties(reader, box_id, username, password, codec_store)
-        assign_equipments_to_network(box_id,network_id,equip_list,username,password)
+        assign_equipments_to_network(box_id, network_id, equip_list, username, password)
+        print("The equipments are created", format(box_id))
     csvFile.close()
     if publish:
         publish_revision(box_id, username, password)
+    print("The complete config is published for the boxID", format(box_id))
 
 
 # POST equipment (and create a new draft)
@@ -40,23 +43,19 @@ def create_lorawan_equipments_properties(reader, box_id, username, password, cod
     equip_list = []
     for row in reader:
         body = get_equipment_body(row)
-        print("created : {}".format(body))
         to_post = url_ws + '/api/devices/' + box_id + '/configs/draft/equipments'
-        # logging.critical('This is a critical message',to_post)
-        print("Posting to:{}", format(to_post))
         r = requests.post(to_post,
                           auth=HTTPBasicAuth(username, password),
                           json=body)
         if r.status_code != 201:
-            print("Issue in POST : {}".format(r.status_code))
-            return equip_list # here add it in the log file
+            logging.error('Equipment Creation Issue %s', format(r.json()))
+            # print("Issue in POST : {}".format(r.status_code))
+            return equip_list  # here add it in the log file
 
         data = r.json()
         equipment_id = data["equipmentId"]
         equip_list.append(equipment_id)
         codec_id = row[4]
-        print("equipmentID:{}", format(equipment_id))
-        print("codecID: {}", format(codec_id))
         post_properties(codec_id, equipment_id, box_id, username, password, codec_store)
     return equip_list
 
@@ -65,15 +64,13 @@ def post_properties(codec_id, equipment_id, box_id, username, password, codec_so
     to_post = url_ws + '/api/devices/' + box_id + '/configs/draft/properties'
     properties = codec_sotre[codec_id]
     for p_codec in properties:
-        print("prop Codec: {}", format(p_codec))
         body = get_property_body(equipment_id, p_codec)
         r = requests.post(to_post,
                           auth=HTTPBasicAuth(username, password),
                           json=body)
         if r.status_code != 201:
-            print("Issue in property POST : {}".format(r.reason))
-        else:
-            print("Done properties")
+            logging.error('Property Creation Issue %s', format(r.json()))
+
 
 
 def publish_revision(box_id, username, password):
@@ -86,9 +83,9 @@ def publish_revision(box_id, username, password):
                      auth=HTTPBasicAuth(username, password),
                      json=body)
     if r.status_code != 200:
-        print("Issue in publish PUT : {}".format(r.json()))
-    else:
-        print("Done publish")
+        print('Error in publishing the config, check error logs')
+        logging.error('Revision Publish Issue %s', format(r.json()))
+
 
 
 def get_properties_for_codec_id(json_data, codec_id):
@@ -123,7 +120,8 @@ def create_new_draft_config(box_id, username, password):
                       auth=HTTPBasicAuth(username, password),
                       json={})
     if r.status_code == 404 or r.status_code > 409:
-        print("Issue in creating new draft: {}{}", format(r.json()), format(r.status_code))
+        logging.error('Draft Config Creation Issue %s', format(r.json()))
+        print('Error in creating draft config, check error logs')
         sys.exit(1)
 
 
@@ -133,9 +131,8 @@ def check_create_network(box_id, username, password):
                      auth=HTTPBasicAuth(username, password))
 
     if r.status_code != 200:
-        print("Issue in network Get : {}".format(r.reason))
-
-    print("network code: {}", format(r.status_code))
+        logging.error('Network Get Issue %s', format(r.json()))
+        print('Error in getting network info, check error logs')
 
     if len(r.json()) != 0:
         return r.json()[0]['networkId']
@@ -156,14 +153,14 @@ def check_create_network(box_id, username, password):
                       auth=HTTPBasicAuth(username, password),
                       json=network_request)
     if r.status_code != 201:
-        print("Issue in network creation POST : {}".format(r.reason))
+        logging.error('Network Creation Issue %s', format(r.json()))
+        print('Error in creating network info, check error logs')
         sys.exit(1)
     else:
         return r.json()['networkId']
 
 
 def assign_equipments_to_network(box_id, network_id, equips_list, username, password):
-    print("equip_lisst {}",equips_list)
     network_request = {
         "name": "lorawan network for EU",
         "description": "auto generated lorawan network",
@@ -179,11 +176,12 @@ def assign_equipments_to_network(box_id, network_id, equips_list, username, pass
 
     to_put = url_ws + '/api/devices/' + box_id + '/configs/draft/networks/' + network_id
     r = requests.put(to_put,
-                      auth=HTTPBasicAuth(username, password),
-                      json=network_request)
+                     auth=HTTPBasicAuth(username, password),
+                     json=network_request)
     if r.status_code != 200:
-        print("Issue in put request for network, {}", format(r.json()))
-
+        print('Error in assigning network info, check error logs')
+        logging.error('Network Assignment Issue %s', format(r.json()))
+        sys.exit(1)
 
 
 def get_property_body(equipment_id, codec_property_id):
