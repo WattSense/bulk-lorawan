@@ -17,7 +17,7 @@ config_path = './codec_manifest.json'
 @click.option('--box_id', required=True, help='enter the Wattsense boxId')
 @click.option('--username', required=True, help='enter the username to access the api')
 @click.option('--password', required=True, help='enter the password to access the api')
-@click.option('--publish', required=True, type=click.Choice(['false', 'true'], case_sensitive=False),
+@click.option('--publish', required=True, type=click.Choice(['False', 'True'], case_sensitive=False),
               help='if the push is yes, the created config will be pushed to the device, otherwise no')
 @click.option('--filepath', required=True,
               help='give the csv file path that will contains:wattsenseBoxId,name,devEUI,appKey,appEUI,codecId')
@@ -33,7 +33,8 @@ def load_csv(filepath, box_id, username, password, publish):
         assign_equipments_to_network(box_id, network_id, equip_list, username, password)
         print("The equipments are created", format(box_id))
     csvFile.close()
-    if publish:
+
+    if publish == 'True':
         publish_revision(box_id, username, password)
     print("The complete config is published for the boxID", format(box_id))
 
@@ -85,6 +86,7 @@ def publish_revision(box_id, username, password):
     if r.status_code != 200:
         print('Error in publishing the config, check error logs')
         logging.error('Revision Publish Issue %s', format(r.json()))
+        sys.exit(1)
 
 
 
