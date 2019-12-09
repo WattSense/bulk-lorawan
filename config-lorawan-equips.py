@@ -31,12 +31,12 @@ def load_csv(filepath, box_id, username, password, publish):
         next(csvFile, None)
         equip_list = create_lorawan_equipments_properties(reader, box_id, username, password, codec_store)
         assign_equipments_to_network(box_id, network_id, equip_list, username, password)
-        print("The equipments are created", format(box_id))
+        print("The equipments and properties are created", format(box_id))
     csvFile.close()
 
     if publish == 'True':
         publish_revision(box_id, username, password)
-    print("The complete config is published for the boxID", format(box_id))
+        print("The complete config is published for the boxID", format(box_id))
 
 
 # POST equipment (and create a new draft)
@@ -121,8 +121,10 @@ def get_create_new_draft_config(box_id, username, password):
     to_get = url_ws + '/api/devices/' + box_id + '/configs/draft'
     g = requests.get(to_get, auth=HTTPBasicAuth(username, password))
     # Don't create a draft if there exists already a draft
+    print("code", format(g.status_code))
     if g.status_code == 200:
         return
+    print("creating new draft...")
     to_post = url_ws + '/api/devices/' + box_id + '/configs/'
     r = requests.post(to_post,
                       auth=HTTPBasicAuth(username, password),
@@ -168,6 +170,9 @@ def check_create_network(box_id, username, password):
 
 
 def assign_equipments_to_network(box_id, network_id, equips_list, username, password):
+    to_get_put = url_ws + '/api/devices/' + box_id + '/configs/draft/networks/' + network_id
+    existing = get_existing_equipments(box_id,network_id,username,password)
+    equips_list.extend(existing)
     network_request = {
         "name": "lorawan network for EU",
         "description": "auto generated lorawan network",
@@ -181,8 +186,8 @@ def assign_equipments_to_network(box_id, network_id, equips_list, username, pass
         },
     }
 
-    to_put = url_ws + '/api/devices/' + box_id + '/configs/draft/networks/' + network_id
-    r = requests.put(to_put,
+
+    r = requests.put(to_get_put,
                      auth=HTTPBasicAuth(username, password),
                      json=network_request)
     if r.status_code != 200:
@@ -190,6 +195,16 @@ def assign_equipments_to_network(box_id, network_id, equips_list, username, pass
         logging.error('Network Assignment Issue %s', format(r.json()))
         sys.exit(1)
 
+
+def get_existing_equipments(box_id, network_id, username, password):
+    to_get = url_ws + '/api/devices/' + box_id + '/configs/draft/networks/' + network_id
+    r = requests.get(to_get,
+                     auth=HTTPBasicAuth(username, password)
+                     )
+    if r.status_code == 200:
+        return r.json()["equipments"]
+    else:
+      return []
 
 def get_property_body(equipment_id, codec_property_id):
     return {
