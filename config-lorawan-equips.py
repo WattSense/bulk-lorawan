@@ -21,7 +21,7 @@ config_path = './codec_manifest.json'
               help='if the push is yes, the created config will be pushed to the device, otherwise no')
 @click.option('--filepath', required=True,
               help='give the csv file path that will contains:wattsenseBoxId,name,devEUI,appKey,appEUI,codecId')
-# // Load and process CSV file
+#Load and process CSV file
 def load_csv(filepath, box_id, username, password, publish):
     codec_store = read_codec_config(config_path)
     get_create_new_draft_config(box_id, username, password)
