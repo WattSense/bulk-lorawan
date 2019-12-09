@@ -8,14 +8,18 @@
     "button.global_counter",
     "button.instant_counter",
     "dry_contact.global_counter",
-    "dry_contact.instant_counter"
+    "dry_contact.instant_counter",
+    "@sys-snr",
+    "@sys-rssi"
   ],
   "adeunis.dry_contacts": [
     "battery",
     "input_1.counter",
     "input_2.counter",
     "input_3.counter",
-    "input_4.counter"
+    "input_4.counter",
+    "@sys-snr",
+    "@sys-rssi"
   ],
   "adeunis.motion": [
     "battery",
@@ -26,7 +30,9 @@
     "button.global_counter",
     "button.instant_counter",
     "dry_contact.global_counter",
-    "dry_contact.instant_counter"
+    "dry_contact.instant_counter",
+    "@sys-snr",
+    "@sys-rssi"
   ],
   "adeunis.pulse": [
     "battery",
@@ -44,12 +50,16 @@
     "channel_b.fraud_alarm",
     "channel_b.leakage_alarm",
     "channel_b.last_24h_min_flow",
-    "channel_b.last_24h_max_flow"
+    "channel_b.last_24h_max_flow",
+    "@sys-snr",
+    "@sys-rssi"
   ],
   "adeunis.temp": [
     "battery",
     "internal_sensor.temperature",
-    "external_sensor.temperature"
+    "external_sensor.temperature",
+    "@sys-snr",
+    "@sys-rssi"
   ],
   "ewattch.ambiance": [
     "battery",
@@ -58,7 +68,9 @@
     "co2",
     "brightness",
     "presence_duration",
-    "send_period"
+    "send_period",
+    "@sys-snr",
+    "@sys-rssi"
   ],
   "nanosense.aaq": [
     "battery.level",
@@ -76,7 +88,9 @@
     "o3_concentration",
     "h2s_concentration",
     "so2_concentration",
-    "nh2_concentration"
+    "nh2_concentration",
+    "@sys-snr",
+    "@sys-rssi"
   ],
   "nanosense.e4000ng": [
     "temperature",
@@ -85,30 +99,42 @@
     "voc",
     "pm_10",
     "pm_1",
-    "pm_2_5"
+    "pm_2_5",
+    "@sys-snr",
+    "@sys-rssi"
   ],
   "netvox.r311a": [
     "battery",
-    "switch.status"
+    "switch.status",
+    "@sys-snr",
+    "@sys-rssi"
   ],
   "netvox.r311w": [
     "battery",
     "water1.leak",
-    "water2.leak"
+    "water2.leak",
+    "@sys-snr",
+    "@sys-rssi"
   ],
   "netvox.r718ab": [
     "battery",
     "battery.voltage",
     "temperature",
-    "humidity"
+    "humidity",
+    "@sys-snr",
+    "@sys-rssi"
   ],
   "netvox.r718f": [
     "battery",
-    "switch.status"
+    "switch.status",
+    "@sys-snr",
+    "@sys-rssi"
   ],
   "netvox.r718g": [
     "battery",
-    "luminosity"
+    "luminosity",
+    "@sys-snr",
+    "@sys-rssi"
   ],
   "netvox.r718n3": [
     "battery",
@@ -117,51 +143,69 @@
     "phase2.raw_current",
     "phase2.multiplier",
     "phase3.raw_current",
-    "phase3.multiplier"
+    "phase3.multiplier",
+    "@sys-snr",
+    "@sys-rssi"
   ],
   "netvox.r718wa": [
     "battery",
-    "water_leak"
+    "water_leak",
+    "@sys-snr",
+    "@sys-rssi"
   ],
   "netvox.r72615a": [
     "battery",
     "battery.voltage",
     "temperature",
     "humidity",
-    "co2_concentration"
+    "co2_concentration",
+    "@sys-snr",
+    "@sys-rssi"
   ],
   "netvox.r72616a": [
     "battery",
     "battery.voltage",
     "temperature",
     "humidity",
-    "pm_2_5"
+    "pm_2_5",
+    "@sys-snr",
+    "@sys-rssi"
   ],
   "netvox.rb11e": [
     "battery",
     "battery.voltage",
     "temperature",
     "illuminance",
-    "occupied"
+    "occupied",
+    "@sys-snr",
+    "@sys-rssi"
   ],
   "nke.pulse_senso": [
     "input_1.counter",
     "input_2.counter",
-    "input_3.counter"
+    "input_3.counter",
+    "@sys-snr",
+    "@sys-rssi"
   ],
   "radio_bridge.door_window": [
     "battery",
-    "doorWindowOpenStatus"
+    "doorWindowOpenStatus",
+    "@sys-snr",
+    "@sys-rssi"
   ],
   "radio_bridge.probless_temp": [
     "battery",
     "temperature",
-    "reportType"
+    "reportType",
+    "@sys-snr",
+    "@sys-rssi"
   ],
   "radio_bridge.temp_humidity": [
     "battery",
     "temperature",
     "humidity",
-    "reportType"
+    "reportType",
+    "@sys-snr",
+    "@sys-rssi"
   ]
 }
