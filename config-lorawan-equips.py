@@ -121,7 +121,6 @@ def get_create_new_draft_config(box_id, username, password):
     to_get = url_ws + '/api/devices/' + box_id + '/configs/draft'
     g = requests.get(to_get, auth=HTTPBasicAuth(username, password))
     # Don't create a draft if there exists already a draft
-    print("code", format(g.status_code))
     if g.status_code == 200:
         return
     print("creating new draft...")
