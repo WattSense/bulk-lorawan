@@ -9,7 +9,7 @@ from requests.auth import HTTPBasicAuth
 
 format_type = '%(asctime)-15s %(message)s'
 logging.basicConfig(filename='errors.log', filemode='w', format=format_type)
-url_ws = 'http://localhost:8442'
+url_ws = 'https://api.wattsense.com'
 config_path = './codec_manifest.json'
 
 
