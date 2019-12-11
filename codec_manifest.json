@@ -207,5 +207,41 @@
     "reportType",
     "@sys-snr",
     "@sys-rssi"
+  ],
+  "elsys.ers_co2": [
+    "temperature",
+    "humidity",
+    "light",
+    "motion.pir",
+    "battery.voltage",
+    "co2",
+    "@sys-snr",
+    "@sys-rssi"
+  ],
+  "elsys.ers_desk": [
+    "temperature",
+    "humidity",
+    "light",
+    "motion.pir",
+    "battery.voltage",
+    "occupancy",
+    "@sys-snr",
+    "@sys-rssi"
+  ],
+  "elsys.ers_lite": [
+    "temperature",
+    "humidity",
+    "battery.voltage",
+    "@sys-snr",
+    "@sys-rssi"
+  ],
+  "elsys.ers": [
+    "temperature",
+    "humidity",
+    "light",
+    "motion.pir",
+    "battery.voltage",
+    "@sys-snr",
+    "@sys-rssi"
   ]
 }

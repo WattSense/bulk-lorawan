@@ -24,8 +24,8 @@ config_path = './codec_manifest.json'
 #Load and process CSV file
 def load_csv(filepath, box_id, username, password, publish):
     codec_store = read_codec_config(config_path)
-    get_create_new_draft_config(box_id, username, password)
-    network_id = check_create_network(box_id, username, password)
+    #get_create_new_draft_config(box_id, username, password)
+    network_id = "ds"#check_create_network(box_id, username, password)
     with open(filepath, 'r') as csvFile:
         reader = csv.reader(csvFile)
         next(csvFile, None)
@@ -43,6 +43,12 @@ def load_csv(filepath, box_id, username, password, publish):
 def create_lorawan_equipments_properties(reader, box_id, username, password, codec_store):
     equip_list = []
     for row in reader:
+        codec_id = row[4]
+        if codec_id not in codec_store:
+            print('Error in validating codecId, check error logs')
+            logging.error('The given codecId is not valid, please check codec_manifest.json %s', format(codec_id))
+            sys.exit(1)
+
         body = get_equipment_body(row)
         to_post = url_ws + '/api/devices/' + box_id + '/configs/draft/equipments'
         r = requests.post(to_post,
@@ -56,14 +62,14 @@ def create_lorawan_equipments_properties(reader, box_id, username, password, cod
         data = r.json()
         equipment_id = data["equipmentId"]
         equip_list.append(equipment_id)
-        codec_id = row[4]
+
         post_properties(codec_id, equipment_id, box_id, username, password, codec_store)
     return equip_list
 
 
-def post_properties(codec_id, equipment_id, box_id, username, password, codec_sotre):
+def post_properties(codec_id, equipment_id, box_id, username, password, codec_store):
     to_post = url_ws + '/api/devices/' + box_id + '/configs/draft/properties'
-    properties = codec_sotre[codec_id]
+    properties = codec_store[codec_id]
     for p_codec in properties:
         body = get_property_body(equipment_id, p_codec)
         r = requests.post(to_post,
@@ -108,6 +114,7 @@ def get_equipment_body(row):
     app_key = row[2]
     app_eui = row[3]
     codec_id = row[4]
+
     return {"name": name,
             "description": "auto generated lorawan equipment",
             "config": {"protocol": "LORAWAN_V1_0", "devEUI": dev_eui, "codecId": codec_id, "appEUI": app_eui,
