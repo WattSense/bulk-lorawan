@@ -243,5 +243,21 @@
     "battery.voltage",
     "@sys-snr",
     "@sys-rssi"
+  ],
+  "elsys.ers_sound": [
+    "temperature",
+    "humidity",
+    "light",
+    "motion.pir",
+    "battery.voltage",
+    "sound.peak",
+    "sound.avg",
+     "@sys-snr",
+    "@sys-rssi"
+  ],
+  "sys-empty-codec": [
+    "@sys-rawPayload-uplink",
+    "@sys-snr",
+    "@sys-rssi"
   ]
 }
