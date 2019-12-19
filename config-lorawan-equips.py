@@ -25,7 +25,7 @@ config_path = './codec_manifest.json'
 def load_csv(filepath, box_id, username, password, publish):
     codec_store = read_codec_config(config_path)
     #get_create_new_draft_config(box_id, username, password)
-    network_id = "ds"#check_create_network(box_id, username, password)
+    network_id = check_create_network(box_id, username, password)
     with open(filepath, 'r') as csvFile:
         reader = csv.reader(csvFile)
         next(csvFile, None)
