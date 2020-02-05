@@ -9,7 +9,7 @@
     "button.instant_counter",
     "dry_contact.global_counter",
     "dry_contact.instant_counter",
-    "@sys-snr",
+      "@sys-snr",
     "@sys-rssi"
   ],
   "adeunis.dry_contacts": [
@@ -18,7 +18,7 @@
     "input_2.counter",
     "input_3.counter",
     "input_4.counter",
-    "@sys-snr",
+      "@sys-snr",
     "@sys-rssi"
   ],
   "adeunis.motion": [
@@ -31,7 +31,7 @@
     "button.instant_counter",
     "dry_contact.global_counter",
     "dry_contact.instant_counter",
-    "@sys-snr",
+      "@sys-snr",
     "@sys-rssi"
   ],
   "adeunis.pulse": [
@@ -51,14 +51,96 @@
     "channel_b.leakage_alarm",
     "channel_b.last_24h_min_flow",
     "channel_b.last_24h_max_flow",
-    "@sys-snr",
+      "@sys-snr",
     "@sys-rssi"
   ],
   "adeunis.temp": [
     "battery",
     "internal_sensor.temperature",
     "external_sensor.temperature",
+      "@sys-snr",
+    "@sys-rssi"
+  ],
+  "bosch.parking_lot": [
+    "occupancy.status",
+    "status.type",
+      "@sys-snr",
+    "@sys-rssi"
+  ],
+  "elsys.elt_2hp": [
+    "temperature",
+    "humidity",
+    "motion.pir",
+    "battery.voltage",
+    "analog.1",
+    "pulse.count",
+    "pulse.count.abs",
+    "external.temp.1",
+    "external.digital",
+    "external.distance",
+    "external.ir.temperature",
+    "external.water.leak",
+    "pressure",
+    "pulse.count.2",
+    "pulse.count.2.abs",
+    "analog.2",
+    "external.temp.2",
+    "external.digital.2",
+      "@sys-snr",
+    "@sys-rssi"
+  ],
+  "elsys.ers": [
+    "temperature",
+    "humidity",
+    "light",
+    "motion.pir",
+    "battery.voltage",
+      "@sys-snr",
+    "@sys-rssi"
+  ],
+  "elsys.ers_co2": [
+    "temperature",
+    "humidity",
+    "light",
+    "motion.pir",
+    "battery.voltage",
+    "co2",
+      "@sys-snr",
+    "@sys-rssi"
+  ],
+  "elsys.ers_desk": [
+    "temperature",
+    "humidity",
+    "light",
+    "motion.pir",
+    "battery.voltage",
+    "occupancy",
+      "@sys-snr",
+    "@sys-rssi"
+  ],
+  "elsys.ers_lite": [
+    "temperature",
+    "humidity",
+    "battery.voltage",
+      "@sys-snr",
+    "@sys-rssi"
+  ],
+  "elsys.ers_sound": [
+    "temperature",
+    "humidity",
+    "light",
+    "motion.pir",
+    "battery.voltage",
+    "sound.peak",
+    "sound.avg",
+      "@sys-snr",
+    "@sys-rssi"
+  ],
+  "empty_codec.empty": [
+    "@sys-rawPayload-uplink",
     "@sys-snr",
+    "@sys-rssi",
+      "@sys-snr",
     "@sys-rssi"
   ],
   "ewattch.ambiance": [
@@ -69,7 +151,7 @@
     "brightness",
     "presence_duration",
     "send_period",
-    "@sys-snr",
+      "@sys-snr",
     "@sys-rssi"
   ],
   "nanosense.aaq": [
@@ -89,7 +171,7 @@
     "h2s_concentration",
     "so2_concentration",
     "nh2_concentration",
-    "@sys-snr",
+      "@sys-snr",
     "@sys-rssi"
   ],
   "nanosense.e4000ng": [
@@ -100,20 +182,20 @@
     "pm_10",
     "pm_1",
     "pm_2_5",
-    "@sys-snr",
+      "@sys-snr",
     "@sys-rssi"
   ],
   "netvox.r311a": [
     "battery",
     "switch.status",
-    "@sys-snr",
+      "@sys-snr",
     "@sys-rssi"
   ],
   "netvox.r311w": [
     "battery",
     "water1.leak",
     "water2.leak",
-    "@sys-snr",
+      "@sys-snr",
     "@sys-rssi"
   ],
   "netvox.r718ab": [
@@ -121,19 +203,28 @@
     "battery.voltage",
     "temperature",
     "humidity",
-    "@sys-snr",
+      "@sys-snr",
     "@sys-rssi"
   ],
   "netvox.r718f": [
     "battery",
     "switch.status",
-    "@sys-snr",
+      "@sys-snr",
     "@sys-rssi"
   ],
   "netvox.r718g": [
     "battery",
     "luminosity",
-    "@sys-snr",
+      "@sys-snr",
+    "@sys-rssi"
+  ],
+  "netvox.r718ma": [
+    "battery",
+    "battery.voltage",
+    "snr",
+    "rssi",
+    "heart.interval",
+      "@sys-snr",
     "@sys-rssi"
   ],
   "netvox.r718n3": [
@@ -144,13 +235,13 @@
     "phase2.multiplier",
     "phase3.raw_current",
     "phase3.multiplier",
-    "@sys-snr",
+      "@sys-snr",
     "@sys-rssi"
   ],
   "netvox.r718wa": [
     "battery",
     "water_leak",
-    "@sys-snr",
+      "@sys-snr",
     "@sys-rssi"
   ],
   "netvox.r72615a": [
@@ -159,7 +250,7 @@
     "temperature",
     "humidity",
     "co2_concentration",
-    "@sys-snr",
+      "@sys-snr",
     "@sys-rssi"
   ],
   "netvox.r72616a": [
@@ -168,7 +259,7 @@
     "temperature",
     "humidity",
     "pm_2_5",
-    "@sys-snr",
+      "@sys-snr",
     "@sys-rssi"
   ],
   "netvox.rb11e": [
@@ -177,27 +268,53 @@
     "temperature",
     "illuminance",
     "occupied",
-    "@sys-snr",
+      "@sys-snr",
+    "@sys-rssi"
+  ],
+  "nexelec.insafe_carbon": [
+    "co2",
+    "temperature",
+    "humidity",
+    "iaq.global",
+    "iaq.src",
+    "iaq.co2",
+    "iaq.dry",
+    "iaq.mould",
+    "iaq.dm",
+    "iaq.hci",
+      "@sys-snr",
+    "@sys-rssi"
+  ],
+  "nexelec.insafe_pilot": [
+    "temperature",
+    "humidity",
+    "iaq.global",
+    "iaq.src",
+    "iaq.dry",
+    "iaq.mould",
+    "iaq.dm",
+    "iaq.hci",
+      "@sys-snr",
     "@sys-rssi"
   ],
   "nke.pulse_senso": [
     "input_1.counter",
     "input_2.counter",
     "input_3.counter",
-    "@sys-snr",
+      "@sys-snr",
     "@sys-rssi"
   ],
   "radio_bridge.door_window": [
     "battery",
     "doorWindowOpenStatus",
-    "@sys-snr",
+      "@sys-snr",
     "@sys-rssi"
   ],
   "radio_bridge.probless_temp": [
     "battery",
     "temperature",
     "reportType",
-    "@sys-snr",
+      "@sys-snr",
     "@sys-rssi"
   ],
   "radio_bridge.temp_humidity": [
@@ -205,59 +322,89 @@
     "temperature",
     "humidity",
     "reportType",
-    "@sys-snr",
+      "@sys-snr",
     "@sys-rssi"
   ],
-  "elsys.ers_co2": [
+  "sensing_lab.temp_lab_14ns": [
+    "temperature",
+    "battery.level",
+      "@sys-snr",
+    "@sys-rssi"
+  ],
+  "sensing_lab.temp_lab_21ns": [
+    "temperature",
+    "battery.level",
+      "@sys-snr",
+    "@sys-rssi"
+  ],
+  "sensing_lab.thy_lab_61ns": [
     "temperature",
     "humidity",
-    "light",
-    "motion.pir",
+    "battery.level",
+      "@sys-snr",
+    "@sys-rssi"
+  ],
+  "synetica.enlink_zone": [
+    "temperature",
+    "humidity",
+    "light.level",
     "battery.voltage",
+    "breath.voc",
     "co2",
-    "@sys-snr",
+    "barometric.pressure",
+    "motion.detected",
+    "indoor_air_quality.voc",
+      "@sys-snr",
     "@sys-rssi"
   ],
-  "elsys.ers_desk": [
+  "talkpool.oy1110": [
     "temperature",
     "humidity",
+      "@sys-snr",
+    "@sys-rssi"
+  ],
+  "talkpool.oy1700": [
+    "temperature",
+    "humidity",
+    "pm1_0",
+    "pm2_5",
+    "pm10",
+      "@sys-snr",
+    "@sys-rssi"
+  ],
+  "tektelic.industrial": [
+    "battery.voltage",
+    "temperature",
+    "output1",
+    "output2",
+    "input1.state",
+    "input2",
+    "input3",
+    "input1.count",
+    "mcu.temperature",
+      "@sys-snr",
+    "@sys-rssi"
+  ],
+  "tektelic.kona_home": [
+    "battery.voltage",
+    "temperature",
+    "reed.switch",
+    "reed.switch.count",
     "light",
-    "motion.pir",
-    "battery.voltage",
-    "occupancy",
-    "@sys-snr",
-    "@sys-rssi"
-  ],
-  "elsys.ers_lite": [
-    "temperature",
     "humidity",
-    "battery.voltage",
-    "@sys-snr",
-    "@sys-rssi"
-  ],
-  "elsys.ers": [
-    "temperature",
-    "humidity",
-    "light",
+    "impact.magnitude",
+    "breakin",
+    "accelerometer.x",
+    "accelerometer.y",
+    "accelerometer.z",
+    "moisture",
     "motion.pir",
-    "battery.voltage",
-    "@sys-snr",
-    "@sys-rssi"
-  ],
-  "elsys.ers_sound": [
-    "temperature",
-    "humidity",
-    "light",
-    "motion.pir",
-    "battery.voltage",
-    "sound.peak",
-    "sound.avg",
-     "@sys-snr",
-    "@sys-rssi"
-  ],
-  "sys-empty-codec": [
-    "@sys-rawPayload-uplink",
-    "@sys-snr",
+    "mcu.temperature",
+    "impact.alarm",
+    "motion.event.count",
+    "external.input",
+    "external.input.count",
+      "@sys-snr",
     "@sys-rssi"
   ]
 }
